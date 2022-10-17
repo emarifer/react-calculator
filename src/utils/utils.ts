@@ -26,9 +26,12 @@ export function evaluate({
       break;
 
     case "÷":
+      if (!current) break;
       computation = prev / current;
       break;
   }
+
+  if (!computation && !current) return "Division by zero is not defined";
 
   let [integer, decimal] = computation.toPrecision(15).split(".");
 
@@ -45,6 +48,8 @@ const INTEGER_FORMATTER = new Intl.NumberFormat("en-US", {
 
 export function formatOperand(operand: string, prev?: boolean): string {
   if (operand === "") return "";
+
+  if (operand === "Division by zero is not defined") return operand;
 
   let [integer, decimal] = operand.split(".");
 
